@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> -->
+
+
+<div th:fragment="fragment-nav">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <a class="navbar-brand" href="/">mylog</a>
+        
+        <div class="collapse navbar-collapse">
+
+
+            <!--   로그인 유저 페이지 -->
+            <!-- <div sec:authorize="isAuthenticated()"> -->
+                <!--    관리자 페이지        -->
+                <!-- <div sec:authorize="hasRole('ADMIN')">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="/admin">어드민페이지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                카테고리
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/">전체 글 보기</a>
+                                <a class="dropdown-item" href="/daily">일상</a>
+                                <a class="dropdown-item" href="/date">데이트</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="/board/saveForm">글쓰기</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/myBoard">작성글</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+                    </ul>
+                </div> -->
+
+                <!--    일반 유저 페이지        -->
+                <!-- <div sec:authorize="hasRole('USER')">
+                <div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                카테고리
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/">전체 글 보기</a>
+                                <a class="dropdown-item" href="/daily">일상</a>
+                                <a class="dropdown-item" href="/date">데이트</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="/board/saveForm">글쓰기</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/myBoard">작성글</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+                    </ul>
+                </div> -->
+                <!-- </div> -->
+                
+				<div class="btn-group pull-right menu-info-div">
+					<button type="button" class="menu-info-btn btn-lg" data-toggle="dropdown" aria-expanded="false">
+						<!-- <img src="https://via.placeholder.com/30" alt="" class="img-circle">  -->
+						<span class="glyphicon glyphicon-menu-hamburger"></span>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+						<li><a href="/board/list">내 로그</a></li>
+						<li><a href="/board/write">새 글 작성</a></li>
+						<li><a href="/board/temp-list">임시 글</a></li>
+						<li><a href="/board/visit-list">읽기목록</a></li>
+						<li><a href="/member/info">설정</a></li>
+						<li><a href="/member/logout">로그아웃</a></li>
+					</ul>
+				</div>
+				<div class="btn-group pull-right menu-info-div">
+					<a class="font-white" href="/user/login"><b>로그인</b></a>
+				</div>
+            <!-- </div> -->
+
+
+            <!--  비 로그인 페이지  -->
+            <!-- <div sec:authorize="isAnonymous()">
+                <div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="/auth/loginForm">로그인</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/auth/joinForm">회원가입</a></li>
+                    </ul>
+                </div>
+            </div>-->
+
+        </div>
+    </nav>
+    <br/>
+</div>
+
+</html>

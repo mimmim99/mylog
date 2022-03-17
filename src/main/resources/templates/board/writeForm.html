@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <div th:replace="/layout/header.html :: fragment-header"></div>
+</head>
+
+<!-- <sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal" var="principal"/>
+</sec:authorize> -->
+
+<body>
+<div th:replace="/layout/nav.html :: fragment-nav"></div>
+
+
+<div class="container">
+    <form>
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" class="form-control" placeholder="제목" id="title">
+        </div>
+        
+        <div class="form-group"> 
+            <label for="keyword">키워드</label>
+            <input type="text" class="form-control" placeholder="키워드 (콤마(,)로 구분하여 여러 키워드를 작성해보세요." id="keyword">
+        </div>
+        
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control summernote" rows="5" id="content"></textarea>
+        </div>
+        
+        <div class="form-group form-inline">
+			<select class="form-control" id="accessScope">
+				<option value="">공개 설정</option>
+				<option value="PRIVATE">나만보기</option>
+				<option value="PUBLIC">전체공개</option>
+				<option value="PROTECTED">팔로워공개</option>
+			</select>
+        </div>
+    </form>
+    <hr>
+    <div class="pull-right">
+    	<button id="btn-save" class="btn btn-default">임시저장</button>
+	    <button id="btn-save" class="btn btn-primary">글쓰기</button>
+    </div>
+<!-- 버튼을 밖으로 빼는건 json 요청을 하기 때문이다 -->
+</div>
+
+
+<!-- 썸머노트 사용 -->
+<script>
+    $('.summernote').summernote({
+        tabsize: 2,
+        height: 300,
+
+    	//반응형
+        width: "100%",
+    });
+</script>
+<!-- <script src="/js/board.js"></script> -->
+
+<footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+
+</body>
+</html>
