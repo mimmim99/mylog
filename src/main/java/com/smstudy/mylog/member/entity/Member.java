@@ -1,4 +1,4 @@
-package com.smstudy.mylog.user.entity;
+package com.smstudy.mylog.member.entity;
 
 import java.time.LocalDateTime;
 
@@ -16,21 +16,22 @@ import org.hibernate.annotations.DynamicInsert;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @DynamicInsert
-public class User {
+public class Member {
 	
 	//식별키
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	//아이디
 	@Column(length=100, nullable = false, unique = true)
 	private String username;

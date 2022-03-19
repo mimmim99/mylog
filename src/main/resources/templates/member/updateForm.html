@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <div th:replace="/layout/header.html :: fragment-header"></div>
+</head>
+
+<body>
+
+<div th:replace="/layout/nav.html :: fragment-nav"></div>
+
+<div class="container">
+    <form>
+        <input type="hidden" id="id" th:value="${member.getId()}">
+        
+        <div th:if="${member.getOauth() != null}">
+            <div class="form-group">
+                <label for="username">아이디</label>
+                <input type="text" th:value="${member.getUsername()}" class="form-control" placeholder="아이디" id="username" readonly>
+            </div>
+        </div>
+
+        <div th:unless="${member.getOauth() != null}">
+            <div class="form-group">
+                <label for="username">아이디</label>
+                <input type="text" th:value="${member.getUsername()}" class="form-control" placeholder="아이디" id="username" readonly>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" class="form-control" placeholder="비밀번호" id="password">
+            </div>
+
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" th:value="${member.getEmail()}" class="form-control" placeholder="이메일" id="email">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="nickname">별명</label>
+            <input type="text" th:value="${member.getNickname()}" class="form-control" placeholder="별명" id="nickname">
+        </div>
+        <div class="form-group form-inline">
+            <select class="form-control" id="accessScope">
+				<option value="">공개범위 설정</option>
+				<option value="PRIVATE" th:selected="${#strings.equals(member.getAccessScope(), 'PRIVATE')}">나만보기</option>
+				<option value="PUBLIC" th:selected="${#strings.equals(member.getAccessScope(), 'PUBLIC')}">전체공개</option>
+				<option value="PROTECTED" th:selected="${#strings.equals(member.getAccessScope(), 'PROTECTED')}">팔로워공개</option>
+			</select>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">본인 인증을 위해 현재 비밀번호를 입력해주세요.</label>
+            <input type="password" class="form-control" placeholder="현재 비밀번호" id="currPassword">
+        </div>
+    </form>
+    <button id="btn-update" class="btn btn-primary">수정하기</button>
+
+
+</div>
+
+
+<script src="/res/js/member.js"></script>
+<footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+
+</body>
+</html>

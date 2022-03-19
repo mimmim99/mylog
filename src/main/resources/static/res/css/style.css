@@ -54,3 +54,9 @@
 	color: white;
 }
 /* 상단 바 끝*/
+
+/* 회원가입폼 시작 */
+#isIdCheckedSpan {
+	display: none;
+}
+/* 회원가입폼 끝 */
