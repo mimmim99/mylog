@@ -27,7 +27,7 @@ public class MemberApiConroller {
 	@PostMapping("/api/member/join")
 	public ResponseDto<?> join(@RequestBody MemberInput parameter) {
 		
-		ServiceResultDto result = memberService.join(parameter);
+		ServiceResultDto result = memberService.insertMember(parameter);
 		
 		if(!result.isResult()) {
 			return new ResponseDto<String>(HttpStatus.FORBIDDEN.value(), result.getMessage());
@@ -48,8 +48,8 @@ public class MemberApiConroller {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
 	
-	@PutMapping("/api/member/update")
-	public ResponseDto<?> update(@RequestBody MemberInput parameter) {
+	@PutMapping("/api/member/modify")
+	public ResponseDto<?> modify(@RequestBody MemberInput parameter) {
 		//비밀번호 입력 안할 경우 현재 비밀번호로 세팅
 		if(parameter.getPassword() == null || parameter.getPassword().isEmpty()) {
 			parameter.setPassword(parameter.getCurrPassword());

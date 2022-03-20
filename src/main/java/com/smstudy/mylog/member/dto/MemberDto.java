@@ -14,7 +14,6 @@ public class MemberDto {
 	private String password;
 	private String email;
 	private String nickname;
-	private String accessScope;
 	private String oauth;
 	
 	public static MemberDto of(Member member) {
@@ -23,7 +22,6 @@ public class MemberDto {
 								  .password(member.getPassword())
 								  .email(member.getEmail())
 								  .nickname(member.getNickname())
-								  .accessScope(member.getAccessScope())
 								  .oauth(member.getOauth())
 								  .build();
 	}

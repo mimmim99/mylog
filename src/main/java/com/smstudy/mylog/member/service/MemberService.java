@@ -12,7 +12,7 @@ public interface MemberService {
 	 * 회원가입
 	 */
 	@Transactional
-	public ServiceResultDto join(MemberInput parameter);
+	public ServiceResultDto insertMember(MemberInput parameter);
 
 	/**
 	 * 중복회원 검사

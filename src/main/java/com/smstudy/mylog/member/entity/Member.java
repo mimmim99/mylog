@@ -44,11 +44,11 @@ public class Member {
 	
 	@Column(length=50, nullable = false)
 	private String nickname;
-	//공개범위
-	@Column(length=20)
-	@ColumnDefault("'PUBLIC'")
-	private String accessScope;
 
+	@Enumerated(EnumType.STRING)
+	@ColumnDefault("'REQ'")
+	private MemberStatus status;
+	
 	//이메일 인증
 	private String authKey;			//인증키
 	private boolean authYn;			//인증여부

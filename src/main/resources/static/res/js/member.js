@@ -14,8 +14,8 @@ let index = {
 			this.chkid();
 		});
 		
-		$("#btn-update").on("click", () => {
-			this.update();
+		$("#btn-modify").on("click", () => {
+			this.modify();
 		});
 	},
 	
@@ -39,17 +39,12 @@ let index = {
 			alert("별명을 입력해주세요.");
 			return false;
 		}
-		
-		if($("#accessScope").val() ==  "") {
-			$("#accessScope").val("PUBLIC");
-		}
 
 		let data = {
 			username: $("#username").val(),
 			password: $("#password").val(),
 			email: $("#email").val(),
-			nickname: $("#nickname").val(),
-			accessScope: $("#accessScope").val()
+			nickname: $("#nickname").val()
 		};
 		
 		$.ajax({
@@ -74,7 +69,7 @@ let index = {
 		});
 	},
 	
-	update: function() {
+	modify: function() {
 		if($("#currPassword").val().length < 1) {
 			alert("현재 비밀번호를 입력해주세요.");
 			return false;
@@ -86,13 +81,12 @@ let index = {
 			password: $("#password").val(),
 			email: $("#email").val(),
 			nickname: $("#nickname").val(),
-			accessScope: $("#accessScope").val(),
 			currPassword: $("#currPassword").val()
 		};
 		
 		$.ajax({
 			type: "PUT",
-			url: "/api/member/update",
+			url: "/api/member/modify",
 			data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8",
 			dataType: "json"

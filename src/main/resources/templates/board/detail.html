@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <div th:replace="/layout/header.html :: fragment-header"></div>
+</head>
+
+<!-- <sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal" var="principal"/>
+</sec:authorize> -->
+
+<body>
+<div th:replace="/layout/nav.html :: fragment-nav"></div>
+
+
+<div class="container">
+
+    <div class="form-group">
+        <h3 th:text="${board.getTitle()}"></h3>
+    </div>
+    <div>
+        작성자 : <span><a th:href="@{/board/list/{username}(username=${board.getUsername()})}"><b th:text="${board.getUsername()}"></b></a></span><br>
+        작성날짜 : <span th:text="${board.getRegDtText()}"></span><br>
+        조회수 : <span th:text="${board.getCount()}"></span><br>
+    </div>
+    <hr>
+
+    <!--   th:utext 를 사용해야 DB안에 html태그까지 모두 적용함    -->
+    <div class="form-group">
+        <div th:utext="${board.getContent()}"></div>
+    </div>
+    <hr>
+    <div th:unless="${board.getUsername() == #authentication.name}" class="text-right">
+        <button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+        <br/><br/>
+    </div>
+    <div th:if="${board.getUsername() == #authentication.name}" class="text-right">
+        <button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+        <a th:href="@{/board/{id}/editForm(id=${board.getId()})}" class="btn btn-primary">수정</a>
+        <button id="btn-delete" class="btn btn-danger">삭제</button>
+        <br/><br/>
+    </div>
+    <hr>
+
+
+    <!--    댓글      -->
+    <div class="card" th:if="${board.isPostYn()}">
+        <form>
+
+            <input type="hidden" id="boardId" th:value="${board.getId()}">
+            <div class="card-body">
+                <textarea id="reply-content" class="form-control" rows="1"></textarea>
+            </div>
+            <div class="card-footer text-right">
+                <button type="button" id="btn-reply-save" class="btn btn-primary">등록</button>
+            </div>
+
+        </form>
+
+    </div>
+    <br>
+
+
+    <div class="card" th:if="${board.isPostYn()}">
+        <div class="card-header">댓글 리스트</div>
+        <ul th:each="reply : ${board.getReplies()}" id="reply-box" class="list-group">
+            <li th:id="|reply-${reply.getId()}|" class="list-group-item">
+
+				<div th:text="|작성자 : ${reply.getUsername()} &nbsp|" class="font-italic">작성자 : yoon &nbsp;</div>
+				<div>
+                	<pre th:text="${reply.getContent}">댓글 내용</pre>
+                </div>
+				<div th:if="${reply.getUsername() == #authentication.name}" class="d-flex pull-right">
+                    <button th:onclick="|javascript:index.replyDelete(${board.getId()}, ${reply.getId()})|" class="badge pull-right">삭제</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<script src="/res/js/board.js"></script>
+<footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+</body>
+</html>

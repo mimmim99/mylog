@@ -14,44 +14,35 @@
 
 <div class="container">
     <form>
+    	<input type="hidden" th:value="${board.getId()}" id="id">
         <div class="form-group">
             <label for="title">제목</label>
-            <input type="text" class="form-control" placeholder="제목" id="title">
+            <input type="text" class="form-control" placeholder="제목" th:value="${board.getTitle()}" id="title">
         </div>
         
         <div class="form-group"> 
             <label for="keyword">키워드</label>
-            <input type="text" class="form-control" placeholder="키워드 (콤마(,)로 구분하여 여러 키워드를 작성해보세요." id="keywords">
+            <input type="text" class="form-control" placeholder="키워드 (콤마(,)로 구분하여 여러 키워드를 작성해보세요." th:value="${board.getKeywords()}" id="keywords">
         </div>
         
         <div class="form-group">
             <label for="content">Content</label>
-            <textarea class="form-control summernote" rows="5" id="content"></textarea>
+            <textarea class="form-control summernote" rows="5" th:utext="${board.getContent()}" id="content"></textarea>
         </div>
         
-        <div class="form-group form-inline">
-			<select class="form-control" id="accessScope">
-				<option value="">공개 설정</option>
-				<option value="PRIVATE">나만보기</option>
-				<option value="PUBLIC">전체공개</option>
-			</select>
-        </div>
-        
-        <!-- 
         <div class="form-group form-inline">
             <select class="form-control" id="accessScope">
 				<option value="">공개범위 설정</option>
-				<option value="PRIVATE" th:selected="${#strings.equals(member.getAccessScope(), 'PRIVATE')}">나만보기</option>
-				<option value="PUBLIC" th:selected="${#strings.equals(member.getAccessScope(), 'PUBLIC')}">전체공개</option>
-				<option value="PROTECTED" th:selected="${#strings.equals(member.getAccessScope(), 'PROTECTED')}">팔로워공개</option>
+				<option value="PRIVATE" th:selected="${#strings.equals(board.getAccessScope(), 'PRIVATE')}">나만보기</option>
+				<option value="PUBLIC" th:selected="${#strings.equals(board.getAccessScope(), 'PUBLIC')}">전체공개</option>
 			</select>
         </div>
-         -->
+
     </form>
     <hr>
     <div class="pull-right">
-    	<button id="btn-temp" class="btn btn-default">임시저장</button>
-	    <button id="btn-save" class="btn btn-primary">글쓰기</button>
+	    <button id="btn-edit" class="btn btn-primary">수정하기</button>
+	    <button id="btn-temp-save" class="btn btn-default" th:if="${board.isPostYn()} == false">게시하기</button>
     </div>
 <!-- 버튼을 밖으로 빼는건 json 요청을 하기 때문이다 -->
 </div>

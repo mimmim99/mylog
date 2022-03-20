@@ -20,4 +20,5 @@ public class ServiceResultDto {
 		this.result = result;
 		this.message = message;
 	}
+	
 }

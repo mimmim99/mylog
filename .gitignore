@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Naver Smart Editor ###
+res/se2/

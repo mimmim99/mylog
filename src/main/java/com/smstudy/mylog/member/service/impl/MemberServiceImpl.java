@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService {
 	private final BCryptPasswordEncoder encoder;
 
 	@Override
-	public ServiceResultDto join(MemberInput parameter) {
+	public ServiceResultDto insertMember(MemberInput parameter) {
 		
 		//중복체크
 		Optional<Member> optionalMember = memberRepository.findByUsername(parameter.getUsername());
@@ -38,7 +38,6 @@ public class MemberServiceImpl implements MemberService {
 								  .password(parameter.getPassword())
 								  .email(parameter.getEmail())
 								  .nickname(parameter.getNickname())
-								  .accessScope(parameter.getAccessScope())
 								  .authKey(UUID.randomUUID().toString())
 								  .authYn(false)
 								  .role(RoleType.USER)
@@ -76,7 +75,6 @@ public class MemberServiceImpl implements MemberService {
 			member.setPassword(encoder.encode(parameter.getPassword()));
 			member.setEmail(parameter.getEmail());
 			member.setNickname(parameter.getNickname());
-			member.setAccessScope(parameter.getAccessScope());
 		}
 		//서비스 종료 시 트랜잭션 종료, 컨텍스트 내용 커밋 - open-in-view
 		
