@@ -1,27 +1,6 @@
 @charset "UTF-8";
 
 /* 게시글 없을 때 안내문구 div 시작 */
-@media (max-width: 767px) { /*스마트폰*/
-	.non-contents-div {
-		height: 300px;
-	}
-}
-@media (min-width: 768px) {
-	.non-contents-div {
-		height: 300px;
-	}
-}
-@media (min-width: 992px) { /*laptop PC용*/
-	.non-contents-div {
-		height: 500px;
-	}
-}
-@media (min-width: 1200px) {
-	.non-contents-div {
-		height: 500px;
-	}
-}
-
 .non-contents-div {
 	line-height: 20em;
 }
@@ -60,3 +39,49 @@
 	display: none;
 }
 /* 회원가입폼 끝 */
+
+/* 페이지 번호 입력 폼 시작*/
+.custom-input-page {
+	width: 44px;
+	height: 34px;
+	position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    text-align: center;
+    border: 2px solid black;
+}
+/* input type number 증감 화살표 없애는 css */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+div.inline-block {
+	display: inline-block;
+}
+/* 페이지 번호 입력 폼 끝*/
+
+/* footer 하단 고정 시작 */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 88.4%;
+}
+#wrapper{
+	position: relative;
+	height: auto;
+	min-height: 100%;
+	padding-bottom: 100px;
+}
+footer{
+	height: 100px;
+	position : relative;
+	transform : translateY(-100%);
+}
+/* footer 하단 고정 끝 */

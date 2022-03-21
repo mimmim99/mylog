@@ -3,6 +3,10 @@ package com.smstudy.mylog.board.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.smstudy.mylog.board.dto.BoardDto;
 import com.smstudy.mylog.board.service.BoardService;
 import com.smstudy.mylog.config.auth.PrincipalDetail;
+import com.smstudy.mylog.util.PageUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,10 +27,14 @@ public class BoardController {
 	private final BoardService boardService;
 	
 	@GetMapping("/")
-	public String index(Model model) {
+	public String index(Model model, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		
-		List<BoardDto> list = boardService.selectPostedBoardList();
+		Page<BoardDto> list = boardService.selectPostedBoardList(pageable);
+
+		PageUtil pager = new PageUtil(list.getNumber(), list.getTotalPages());
+				
 		model.addAttribute("list", list);
+		model.addAttribute("page", pager.getPageHtml());
 		
 		return "index";
 	}

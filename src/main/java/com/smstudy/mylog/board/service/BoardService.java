@@ -2,6 +2,8 @@ package com.smstudy.mylog.board.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smstudy.mylog.board.dto.BoardDto;
@@ -21,7 +23,7 @@ public interface BoardService {
 	 * 인덱스 페이지용 게시글 리스트(전체공개 게시글만 추출) 
 	 */
 	@Transactional
-	List<BoardDto> selectPostedBoardList();
+	Page<BoardDto> selectPostedBoardList(Pageable pageable);
 	
 	/**
 	 * 회원 게시글 리스트 추출
@@ -63,7 +65,6 @@ public interface BoardService {
 	 * 게시글 댓글 삭제
 	 */
 	@Transactional
-	ServiceResultDto deleteReply(ReplyInput parameter);	
-
+	ServiceResultDto deleteReply(ReplyInput parameter);
 	
 }

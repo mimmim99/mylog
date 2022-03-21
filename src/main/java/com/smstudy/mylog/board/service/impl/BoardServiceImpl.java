@@ -2,6 +2,8 @@ package com.smstudy.mylog.board.service.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.smstudy.mylog.board.dto.BoardDto;
@@ -14,7 +16,6 @@ import com.smstudy.mylog.board.repository.ReplyRepository;
 import com.smstudy.mylog.board.service.BoardService;
 import com.smstudy.mylog.common.dto.ServiceResultDto;
 import com.smstudy.mylog.member.dto.MemberDto;
-import com.smstudy.mylog.member.entity.Member;
 import com.smstudy.mylog.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -44,9 +45,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardDto> selectPostedBoardList() {
+	public Page<BoardDto> selectPostedBoardList(Pageable pageable) {
 		
-		return boardRepository.findByPostYnOrderByRegDtDesc(true).map(BoardDto::of).orElse(null);
+		return boardRepository.findByPostYnOrderByRegDtDesc(true, pageable).map(BoardDto::of);
 	}
 	
 	@Override

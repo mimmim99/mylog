@@ -11,67 +11,79 @@
  -->
  
 <body>
+
 <div th:replace="/layout/nav.html :: fragment-nav"></div>
 
-<div th:if="${list != null}">
-
-	<div class="container">
-	    <div class="card m-2" th:each="board : ${list}">
-	        <div class="card-body">
-	            <h4 class="card-title" th:text="${board.getTitle()}">제목</h4>
-	            <strong th:text="|작성자 : ${board.getNickname()}|">작성자 : ㅇㅇ</strong>
-	            <p th:text="|작성날짜 : ${board.getRegDtText()}|"></p>
-	            <p th:text="|조회수 : ${board.getCount()}|">조회수 : 3</p>
-	            <a th:href="@{/board/{id}(id=${board.getId()})}" class="btn btn-primary">상세보기</a>
-	        </div>
-	    </div>
+<div id="wrapper">
+	<div th:if="${list != null}">
+	
+		<div class="container">
+		    <div class="card m-2" th:each="board : ${list}">
+		        <div class="card-body">
+		            <h4 class="card-title" th:text="${board.getTitle()}">제목</h4>
+		            <strong th:text="|작성자 : ${board.getNickname()}|">작성자 : ㅇㅇ</strong>
+		            <p th:text="|작성날짜 : ${board.getRegDt()}|"></p>
+		            <p th:text="|조회수 : ${board.getCount()}|">조회수 : 3</p>
+		            <a th:href="@{/board/{id}(id=${board.getId()})}" class="btn btn-primary">상세보기</a>
+		        </div>
+		    </div>
+		</div>
+		<br>
+		<div class="text-center">
+			총 <span th:text="${list.getTotalElements()}"></span>건
+			페이지 <span th:text="${list.getNumber()+1} + ' / ' + ${list.getTotalPages()}"></span>
+		</div>
+		
+		<div class="text-center">
+			<div class="inline-block">
+			    <ul class="pagination justify-content-center">
+			        <li class="page-item" th:classappend="${list.first ? 'disabled' : ''}"><a class="page-link" th:href="@{?page={num}(num=${list.getNumber()-1})}">Prev</a></li>
+			        <li class="page-item">
+			        	<input type="number" id="pageNumber" th:value="${list.getNumber()+1}" class="custom-input-page">
+			        	<input type="hidden" id="lastPageNumber" th:value="${list.getTotalPages()}"> 
+			        </li>
+			        <li class="page-item" th:classappend="${list.last ? 'disabled' : ''}"><a class="page-link" th:href="@{?page={num}(num=${list.getNumber()+1})}">Next</a></li>
+			    </ul>
+			    <!-- <div>페이지 번호 입력 후 엔터 시 바로가기 가능</div> -->
+			</div>
+		    <div class="text-center inline-block" th:utext="${page}"></div>
+		</div>
 	</div>
 	
-	<!-- 처음과 끝이 아닌 경우 -->
-	<!-- 
-	<div th:if="!${boards.last} and !${boards.first}">
-	    <ul class="pagination justify-content-center">
-	        <li class="page-item"><a class="page-link" th:href="@{?page={num}(num=${boards.getNumber()-1})}">Previous</a></li>
-	        <li class="page-item"><a class="page-link" th:href="@{?page={num}(num=${boards.getNumber()+1})}">Next</a></li>
-	    </ul>
-	</div>
-	 -->
-	 
-	<!-- 처음과 끝인 경우 -->
-	<!-- 
-	<div th:unless="!${boards.last} and !${boards.first}">
-	-->
-	    <!-- 처음인 경우 -->
-	    <!-- <div th:if="${boards.first}">
-	        <ul class="pagination justify-content-center">
-	            <li class="page-item disabled"><a class="page-link" th:href="@{?page={num}(num=${boards.getNumber()-1})}">Previous</a></li>
-	            <li class="page-item"><a class="page-link" th:href="@{?page={num}(num=${boards.getNumber()+1})}">Next</a></li>
-	        </ul>
-	    </div>
-		 -->
-	    <!-- 끝인 경우 -->
-	    <!-- <div th:unless="${boards.first}">
-	        <ul class="pagination justify-content-center">
-	            <li class="page-item"><a class="page-link" th:href="@{?page={num}(num=${boards.getNumber()-1})}">Previous</a></li>
-	            <li class="page-item disabled"><a class="page-link" th:href="@{?page={num}(num=${boards.getNumber()+1})}">Next</a>
-	            </li>
-	        </ul>
-	    </div>
-	</div>
-	 -->
-</div>
-<div th:unless="${list != null}">
-	<div class="container">
-		<div class="row">
-			<div class="col-12 text-center non-contents-div">
-				<span>게시글이 존재하지 않습니다.</span>
+	<div th:unless="${list != null}">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 text-center non-contents-div">
+					<span>게시글이 존재하지 않습니다.</span>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
 <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+<script>
+	$("#pageNumber").keyup(function(event) {
 
+		let lastPage = Number($("#lastPageNumber").val());
+		let inputPage = Number($(this).val());
 
+		console.log(inputPage, lastPage);
+		
+		if(inputPage < 1) {
+			inputPage = 1;
+		}
+		
+		if(inputPage > lastPage) {
+			inputPage = lastPage;
+		}
+		
+		$(this).val(inputPage);
+		
+		if(event.keyCode == 13) {
+			location.href = "?page=" + (inputPage-1);
+		}
+	});
+</script>
 </body>
 </html>
