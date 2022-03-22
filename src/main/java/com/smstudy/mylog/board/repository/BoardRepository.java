@@ -13,7 +13,7 @@ import com.smstudy.mylog.board.entity.Board;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-	Page<Board> findByMemberIdAndPostYnOrderByRegDtDesc(long id, boolean postYn, Pageable pageable);
+	Optional<List<Board>> findByMemberIdAndPostYnOrderByRegDtDesc(long id, boolean postYn);
 
 	Page<Board> findByPostYnOrderByRegDtDesc(boolean postYn, Pageable pageable);
 	

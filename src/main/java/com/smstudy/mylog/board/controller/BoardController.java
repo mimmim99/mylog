@@ -1,5 +1,7 @@
 package com.smstudy.mylog.board.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,35 +40,28 @@ public class BoardController {
 	}
 	
 	@GetMapping(value = {"/board/list", "/board/list/{username}"})
-	public String list(Model model, @PathVariable(required = false) String username, @AuthenticationPrincipal PrincipalDetail principal
-						, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+	public String list(Model model, @PathVariable(required = false) String username, @AuthenticationPrincipal PrincipalDetail principal) {
+		List<BoardDto> list = new ArrayList<>();
 		
 		if(username == null || username.isBlank()) {
 			username = principal.getUsername();
 		}
 		
-		Page<BoardDto> list = boardService.selectBoardListByUsername(username, true, pageable);
-		
-		PageUtil pager = new PageUtil(list.getNumber(), list.getTotalPages());
+		list = boardService.selectBoardListByUsername(username, true);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("member", principal.getMember());
-		model.addAttribute("page", pager.getPageHtml());
 		
 		return "/board/list";
 	}
 	
 	@GetMapping("/board/list/temp")
-	public String tempList(Model model, @AuthenticationPrincipal PrincipalDetail principal
-							, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+	public String tempList(Model model, @AuthenticationPrincipal PrincipalDetail principal) {
 		
-		Page<BoardDto> list = boardService.selectBoardListByUsername(principal.getUsername(), false, pageable);
-		
-		PageUtil pager = new PageUtil(list.getNumber(), list.getTotalPages());
+		List<BoardDto> list = boardService.selectBoardListByUsername(principal.getUsername(), false);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("member", principal.getMember());
-		model.addAttribute("page", pager.getPageHtml());
 		
 		return "/board/tempList";
 	}

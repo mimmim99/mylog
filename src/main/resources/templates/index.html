@@ -61,8 +61,29 @@
 	</div>
 </div>
 
-<script src="/res/js/pagination.js"></script>
 <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+<script>
+	$("#pageNumber").keyup(function(event) {
 
+		let lastPage = Number($("#lastPageNumber").val());
+		let inputPage = Number($(this).val());
+
+		console.log(inputPage, lastPage);
+		
+		if(inputPage < 1) {
+			inputPage = 1;
+		}
+		
+		if(inputPage > lastPage) {
+			inputPage = lastPage;
+		}
+		
+		$(this).val(inputPage);
+		
+		if(event.keyCode == 13) {
+			location.href = "?page=" + (inputPage-1);
+		}
+	});
+</script>
 </body>
 </html>

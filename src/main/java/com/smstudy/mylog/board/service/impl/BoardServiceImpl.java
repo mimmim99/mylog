@@ -34,6 +34,7 @@ public class BoardServiceImpl implements BoardService {
 		Board board = Board.builder().title(parameter.getTitle())
 									 .keywords(parameter.getKeywords())
 									 .content(parameter.getContent())
+									 .accessScope(parameter.getAccessScope())
 									 .member(parameter.getMember())
 									 .postYn(parameter.isPostYn())
 									 .build();
@@ -50,13 +51,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Page<BoardDto> selectBoardListByUsername(String username, boolean postYn, Pageable pageable) {
+	public List<BoardDto> selectBoardListByUsername(String username, boolean postYn) {
 
 		MemberDto memberDto = memberRepository.findByUsername(username).map(MemberDto::of).orElseThrow(()->{
 			throw new IllegalArgumentException("게시글 리스트 조회 실패 - 존재하지 않은 회원입니다.");
 		});
 		
-		return boardRepository.findByMemberIdAndPostYnOrderByRegDtDesc(memberDto.getId(), postYn, pageable).map(BoardDto::of);
+		return boardRepository.findByMemberIdAndPostYnOrderByRegDtDesc(memberDto.getId(), postYn).map(BoardDto::of).orElse(null);
 	}
 
 	@Override
@@ -88,6 +89,7 @@ public class BoardServiceImpl implements BoardService {
 		board.setTitle(parameter.getTitle());
 		board.setKeywords(parameter.getKeywords());
 		board.setContent(parameter.getContent());
+		board.setAccessScope(parameter.getAccessScope());
 		board.setPostYn(parameter.isPostYn());
 		
 		return new ServiceResultDto();

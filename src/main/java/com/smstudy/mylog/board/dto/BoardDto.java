@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.smstudy.mylog.board.entity.Board;
+import com.smstudy.mylog.board.entity.BoardAccessCode;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,7 @@ public class BoardDto {
 	private String title;
 	private String keywords;
 	private String content;
+	private BoardAccessCode accessScope;
 	private long count;
 	private String username;
 	private String nickname;
@@ -39,6 +41,7 @@ public class BoardDto {
 								 .title(board.getTitle())
 								 .keywords(board.getKeywords())
 								 .content(board.getContent())
+								 .accessScope(board.getAccessScope())
 								 .count(board.getCount())
 								 .username(board.getMember().getUsername())
 								 .nickname(board.getMember().getNickname())

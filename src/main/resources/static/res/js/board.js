@@ -45,11 +45,17 @@ let index = {
 			alert("내용을 입력해주세요.");
 			return false;	
 		}
+
+		if($("#accessScope").val().length < 1) {
+			alert("공개범위를 선택해주세요.");
+			return false;	
+		}
 		
 		let data = {
 			title: $("#title").val(),
 			keywords: $("#keywords").val(),
 			content: $("#content").val(),
+			accessScope: $("#accessScope").val(),
 			postYn: postYn
 		};
 		
@@ -94,12 +100,18 @@ let index = {
 			alert("내용을 입력해주세요.");
 			return false;	
 		}
+
+		if($("#accessScope").val().length < 1) {
+			alert("공개범위를 선택해주세요.");
+			return false;	
+		}
 		
 		let data = {
 			id: id,
 			title: $("#title").val(),
 			keywords: $("#keywords").val(),
 			content: $("#content").val(),
+			accessScope: $("#accessScope").val(),
 			postYn: postYn
 		};
 		

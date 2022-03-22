@@ -29,6 +29,14 @@
             <label for="content">Content</label>
             <textarea class="form-control summernote" rows="5" th:utext="${board.getContent()}" id="content"></textarea>
         </div>
+        
+        <div class="form-group form-inline">
+            <select class="form-control" id="accessScope">
+				<option value="">공개범위 설정</option>
+				<option value="PRIVATE" th:selected="${#strings.equals(board.getAccessScope(), 'PRIVATE')}">나만보기</option>
+				<option value="PUBLIC" th:selected="${#strings.equals(board.getAccessScope(), 'PUBLIC')}">전체공개</option>
+			</select>
+        </div>
 
     </form>
     <hr>
