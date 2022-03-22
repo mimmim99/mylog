@@ -29,7 +29,7 @@ public interface BoardService {
 	 * 회원 게시글 리스트 추출
 	 */
 	@Transactional
-	List<BoardDto> selectBoardListByUsername(String username, boolean postYn);
+	Page<BoardDto> selectBoardListByUsername(String username, boolean postYn, Pageable pageable);
 
 	/**
 	 * 게시글 상세정보 추출 

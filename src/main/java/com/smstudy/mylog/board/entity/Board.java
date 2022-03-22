@@ -48,10 +48,6 @@ public class Board {
 	@Lob
 	private String content;
 	
-	@Enumerated(EnumType.STRING)
-	@ColumnDefault("'PUBLIC'")
-	private BoardAccessCode accessScope;
-	
 	@ColumnDefault("0")
 	private long count;
 	

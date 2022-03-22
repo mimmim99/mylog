@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.smstudy.mylog.board.entity.Board;
-import com.smstudy.mylog.board.entity.BoardAccessCode;
 import com.smstudy.mylog.board.repository.BoardRepository;
 import com.smstudy.mylog.member.entity.Member;
 import com.smstudy.mylog.member.repository.MemberRepository;
@@ -27,7 +26,6 @@ class MylogApplicationTests {
 			Board board = Board.builder().title("테스트 게시글 + " + count)
 										 .keywords("테스트,게시글," + count)
 										 .content("테스트 게시글 내용 + " + count)
-										 .accessScope(BoardAccessCode.PUBLIC)
 										 .count(0)
 										 .postYn(true)
 										 .member(member)
