@@ -1,8 +1,5 @@
 package com.smstudy.mylog.board.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -40,28 +37,35 @@ public class BoardController {
 	}
 	
 	@GetMapping(value = {"/board/list", "/board/list/{username}"})
-	public String list(Model model, @PathVariable(required = false) String username, @AuthenticationPrincipal PrincipalDetail principal) {
-		List<BoardDto> list = new ArrayList<>();
+	public String list(Model model, @PathVariable(required = false) String username, @AuthenticationPrincipal PrincipalDetail principal
+						, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		
 		if(username == null || username.isBlank()) {
 			username = principal.getUsername();
 		}
 		
-		list = boardService.selectBoardListByUsername(username, true);
+		Page<BoardDto> list = boardService.selectBoardListByUsername(username, true, pageable);
+		
+		PageUtil pager = new PageUtil(list.getNumber(), list.getTotalPages());
 		
 		model.addAttribute("list", list);
 		model.addAttribute("member", principal.getMember());
+		model.addAttribute("page", pager.getPageHtml());
 		
 		return "/board/list";
 	}
 	
 	@GetMapping("/board/list/temp")
-	public String tempList(Model model, @AuthenticationPrincipal PrincipalDetail principal) {
+	public String tempList(Model model, @AuthenticationPrincipal PrincipalDetail principal
+							, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 		
-		List<BoardDto> list = boardService.selectBoardListByUsername(principal.getUsername(), false);
+		Page<BoardDto> list = boardService.selectBoardListByUsername(principal.getUsername(), false, pageable);
+		
+		PageUtil pager = new PageUtil(list.getNumber(), list.getTotalPages());
 		
 		model.addAttribute("list", list);
 		model.addAttribute("member", principal.getMember());
+		model.addAttribute("page", pager.getPageHtml());
 		
 		return "/board/tempList";
 	}

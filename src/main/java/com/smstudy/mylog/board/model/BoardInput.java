@@ -1,6 +1,5 @@
 package com.smstudy.mylog.board.model;
 
-import com.smstudy.mylog.board.entity.BoardAccessCode;
 import com.smstudy.mylog.member.entity.Member;
 
 import lombok.Data;
@@ -13,6 +12,5 @@ public class BoardInput {
 	private String keywords;
 	private String content;
 	private Member member;
-	private BoardAccessCode accessScope;
 	private boolean postYn;
 }

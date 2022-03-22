@@ -1,7 +1,5 @@
 package com.smstudy.mylog.board.repository;
 
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +11,8 @@ import com.smstudy.mylog.board.entity.Board;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-	Optional<List<Board>> findByMemberIdAndPostYnOrderByRegDtDesc(long id, boolean postYn);
-
-	Page<Board> findByPostYnOrderByRegDtDesc(boolean postYn, Pageable pageable);
+	Page<Board> findByPostYnOrderByIdDesc(boolean postYn, Pageable pageable);
+	
+	Page<Board> findByMemberIdAndPostYnOrderByIdDesc(long id, boolean postYn, Pageable pageable);
 	
 }

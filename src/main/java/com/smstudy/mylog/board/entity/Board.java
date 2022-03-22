@@ -45,12 +45,9 @@ public class Board {
 	
 	private String keywords;
 	
+	@Column(nullable = false)
 	@Lob
 	private String content;
-	
-	@Enumerated(EnumType.STRING)
-	@ColumnDefault("'PUBLIC'")
-	private BoardAccessCode accessScope;
 	
 	@ColumnDefault("0")
 	private long count;

@@ -1,7 +1,5 @@
 package com.smstudy.mylog.board.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +18,17 @@ public interface BoardService {
 	ServiceResultDto insertBoard(BoardInput parameter);
 
 	/**
-	 * 인덱스 페이지용 게시글 리스트(전체공개 게시글만 추출) 
+	 * 인덱스 페이지용 게시글 리스트(임시작성글 제외) 
 	 */
 	@Transactional
 	Page<BoardDto> selectPostedBoardList(Pageable pageable);
 	
 	/**
 	 * 회원 게시글 리스트 추출
+	 * @param postYn (true = 게시글, false = 임시글)
 	 */
 	@Transactional
-	List<BoardDto> selectBoardListByUsername(String username, boolean postYn);
+	Page<BoardDto> selectBoardListByUsername(String username, boolean postYn, Pageable pageable);
 
 	/**
 	 * 게시글 상세정보 추출 
