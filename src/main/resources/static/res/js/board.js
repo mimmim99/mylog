@@ -1,5 +1,6 @@
 /**
  * 게시글 추가,수정,삭제
+ * 썸머노트 설정 
  */
 
 let index = {
@@ -28,9 +29,15 @@ let index = {
 		$("#btn-reply-save").on("click", () => {
 			this.saveReply();
 		});
+		
 	},
 	
 	save: function(status) {
+		let contentFiles = new Array();
+		$("input[name=contentFiles]").each(function(index, item){
+			contentFiles.push($(item).val());
+		});
+		
 		let postYn = true;
 		if(status == 'TEMP') {
 			postYn = false;
@@ -50,7 +57,8 @@ let index = {
 			title: $("#title").val(),
 			keywords: $("#keywords").val(),
 			content: $("#content").val(),
-			postYn: postYn
+			postYn: postYn,
+			contentFiles: contentFiles
 		};
 		
 		$.ajax({
@@ -79,6 +87,10 @@ let index = {
 	
 	edit: function(status) {
 		let id = $("#id").val();
+		let contentFiles = new Array();
+		$("input[name=contentFiles]").each(function(index, item){
+			contentFiles.push($(item).val());
+		});
 		
 		let postYn = true;
 		if(status == 'TEMP') {
@@ -100,7 +112,8 @@ let index = {
 			title: $("#title").val(),
 			keywords: $("#keywords").val(),
 			content: $("#content").val(),
-			postYn: postYn
+			postYn: postYn,
+			contentFiles: contentFiles
 		};
 		
 		$.ajax({
@@ -115,7 +128,7 @@ let index = {
 				return false;
 			} else {
 				alert("게시글 수정 완료");
-				location.href = "/board/" + id;
+				location.href = "/public/board/" + id;
 			}
 		}).fail(function(err) {
 			alert("게시글 수정에 실패하였습니다. 관리자에게 문의해주세요.");
@@ -222,3 +235,64 @@ let index = {
 }
 
 index.init();
+
+//썸머노트 사용		
+$(".summernote").summernote({
+    tabsize: 2,
+    height: 300,
+	//반응형
+    width: "100%",
+	disableResizeEditor: true,	// 크기 조절 기능 삭제
+    toolbar: [
+				['fontname', ['fontname']],
+				['fontsize', ['fontsize']],
+				['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+				['color', ['forecolor','color']],
+				['table', ['table']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']],
+				['insert',['picture','link','video']],
+				['view', ['fullscreen', 'help']]
+			],
+	fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+	fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],    
+	callbacks: {
+		onImageUpload: function(files) {
+			for(let i=0; i<files.length; i++ ) {
+				summernoteImageUpload(files[i]);
+			}
+		},
+		onPaste: function (e) {
+			let clipboardData = e.originalEvent.clipboardData;
+			if (clipboardData && clipboardData.items && clipboardData.items.length) {
+				let item = clipboardData.items[0];
+				if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+					e.preventDefault();
+				}
+			}
+		}
+	}
+});
+
+//이미지 업로드
+function summernoteImageUpload(file) {
+	let data = new FormData();
+	data.append("file", file);
+	
+	$.ajax({
+		type: "POST",
+		url: "/api/board/upload",
+		data: data,
+		contentType: false,
+		processData: false,
+		enctype : 'multipart/form-data'
+	}).done(function(res) {
+		$(".summernote").summernote('insertImage', res.data);
+		
+		$('#content').prepend('<input type="hidden" name="contentFiles" value="'+res.data+'">');
+		
+	}).fail(function(err) {
+		console.log(res);
+	});
+
+}

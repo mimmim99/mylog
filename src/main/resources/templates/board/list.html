@@ -25,7 +25,7 @@
             <strong th:text="|작성자 : ${board.getNickname()}|">작성자 : ㅇㅇ</strong>
             <p th:text="|작성날짜 : ${board.getRegDtText()}|"></p>
             <p th:text="|조회수 : ${board.getCount()}|">조회수 : 3</p>
-            <a th:href="@{/board/{id}(id=${board.getId()})}" class="btn btn-primary">상세보기</a>
+            <a th:href="@{/public/board/{id}(id=${board.getId()})}" class="btn btn-primary">상세보기</a>
         </div>
     </div>
     

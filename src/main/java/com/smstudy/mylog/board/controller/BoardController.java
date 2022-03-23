@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.smstudy.mylog.board.dto.BoardDto;
 import com.smstudy.mylog.board.service.BoardService;
 import com.smstudy.mylog.config.auth.PrincipalDetail;
+import com.smstudy.mylog.member.dto.MemberDto;
 import com.smstudy.mylog.util.PageUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -43,13 +44,16 @@ public class BoardController {
 		if(username == null || username.isBlank()) {
 			username = principal.getUsername();
 		}
-		
+		 
 		Page<BoardDto> list = boardService.selectBoardListByUsername(username, true, pageable);
+		MemberDto member = MemberDto.builder().username(username)
+											  .nickname(list.toList().get(0).getNickname())
+											  .build();
 		
 		PageUtil pager = new PageUtil(list.getNumber(), list.getTotalPages());
 		
 		model.addAttribute("list", list);
-		model.addAttribute("member", principal.getMember());
+		model.addAttribute("member", member);
 		model.addAttribute("page", pager.getPageHtml());
 		
 		return "/board/list";
@@ -75,15 +79,29 @@ public class BoardController {
 		return "/board/writeForm";
 	}
 	
-	@GetMapping("/board/{id}")
+	/*
+	 * 비회원도 전체 공개글 접근 가능하도록 하기위해 /public 으로 지정함.  
+	 */
+	@GetMapping("/public/board/{id}")
 	public String detail(@PathVariable long id, Model model, @AuthenticationPrincipal PrincipalDetail principal) {
 		
+		boolean isWriter = false;
+		
 		BoardDto board = boardService.selectBoard(id);
-		if(!board.getUsername().equals(principal.getUsername())) {
-			//조회수 증가
-			boardService.updateCount(board.getId(), board.getCount()+1);
-			board.setCount(board.getCount()+1);
+		if(principal != null && board.getUsername().equals(principal.getUsername())) {
+			isWriter = true;
 		}
+		
+		if(!isWriter) {
+			if(board.isPostYn()) {
+				//조회수 증가
+				boardService.updateCount(board.getId(), board.getCount()+1);
+				board.setCount(board.getCount()+1);
+			} else {
+				return "/error/forbidden";
+			}
+		}
+
 		model.addAttribute("board", board);
 		
 		return "/board/detail";

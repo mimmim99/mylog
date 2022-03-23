@@ -13,4 +13,7 @@ public class BoardInput {
 	private String content;
 	private Member member;
 	private boolean postYn;
+	
+	//파일리스트 (최종본과 비교하기 위함)
+	private String[] contentFiles;
 }

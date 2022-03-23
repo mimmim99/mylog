@@ -43,7 +43,7 @@
 
 
     <!--    댓글      -->
-    <div class="card" th:if="${board.isPostYn()}">
+    <div class="card" th:if="${board.isPostYn()}" sec:authorize="isAuthenticated()">
         <form>
 
             <input type="hidden" id="boardId" th:value="${board.getId()}">

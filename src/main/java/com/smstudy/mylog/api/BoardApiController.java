@@ -1,5 +1,9 @@
 package com.smstudy.mylog.api;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +20,7 @@ import com.smstudy.mylog.board.service.BoardService;
 import com.smstudy.mylog.common.dto.ResponseDto;
 import com.smstudy.mylog.common.dto.ServiceResultDto;
 import com.smstudy.mylog.config.auth.PrincipalDetail;
+import com.smstudy.mylog.util.FileUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +32,14 @@ public class BoardApiController {
 	
 	@PostMapping("/api/board")
 	public ResponseDto<?> add(@RequestBody BoardInput parameter, @AuthenticationPrincipal PrincipalDetail principal) {
+		
 		parameter.setMember(principal.getMember());
+		//최종 게시글 내용에 파일과 업로드리스트 비교하여 지워진 이미지는 삭제처리
+		for(String fileUrl : parameter.getContentFiles()) {
+			if(!parameter.getContent().contains(fileUrl)) {
+				FileUtil.delete(fileUrl);
+			}
+		}
 		
 		ServiceResultDto result = boardService.insertBoard(parameter);
 		if(!result.isResult()) {
@@ -43,6 +55,13 @@ public class BoardApiController {
 		BoardDto boardDto = boardService.selectBoard(parameter.getId());
 		if(!boardDto.getUsername().equals(principal.getUsername())) {
 			return new ResponseDto<String>(HttpStatus.FORBIDDEN.value(), "수정 권한이 없습니다.");
+		}
+		
+		//최종 게시글 내용에 파일과 업로드리스트 비교하여 지워진 이미지는 삭제처리
+		for(String fileUrl : parameter.getContentFiles()) {
+			if(!parameter.getContent().contains(fileUrl)) {
+				FileUtil.delete(fileUrl);
+			}
 		}
 		
 		ServiceResultDto result = boardService.updateBoard(parameter);
@@ -86,4 +105,5 @@ public class BoardApiController {
 		
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
+	
 }

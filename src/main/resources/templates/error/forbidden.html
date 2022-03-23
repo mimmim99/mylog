@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <div th:replace="/layout/header.html :: fragment-header"></div>
+</head>
+
+<!-- 
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal" var="principal"/>
+</sec:authorize>
+ -->
+ 
+<body>
+
+<div th:replace="/layout/nav.html :: fragment-nav"></div>
+
+<div class="container" id="wrapper">
+	<div class="jumbotron">
+		<h3>허가 거부</h3>
+		<br>
+		<h4>페이지에 대한 접근 권한이 없습니다.</h4>
+		<br><br>
+		<div class="text-right">
+			<a href="/" class="btn btn-secondary">목록으로</a>
+		</div>
+	</div>
+</div>
+
+<script src="/res/js/pagination.js"></script>
+<footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+
+</body>
+</html>
